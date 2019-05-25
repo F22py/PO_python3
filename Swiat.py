@@ -1,6 +1,7 @@
 import queue
 
 from Organisms.Animals.Zwierze import *
+from Organisms.Animals.Czlowiek import *
 
 class Swiat:
     def __init__(self, width, height):
@@ -9,7 +10,7 @@ class Swiat:
 
         self.to_print = 77
 
-        self.moje_organizmy = []
+        self.moje_organizmy = [[None for i in range(width)] for j in range(height)]
         self.kolejkaRuchu = queue.PriorityQueue()
 
         self.tour_number = 0
@@ -54,7 +55,11 @@ class Swiat:
         pass
 
     def zabij_organizm(self, x, y):
-        pass
+        if isinstance(self.moje_organizmy[y][x], Czloweik):
+            pass
+
+        # self.kolejkaRuchu.get
+        self.moje_organizmy[y][x] = None
 
     def try_to_activate_special(self):
         pass
@@ -76,13 +81,21 @@ class Swiat:
 
 testing = Swiat(20, 20)
 
-ttt = Zwierze(testing, 5, 10)
-print(ttt.get_direction())
-print(ttt.get_direction())
-print(ttt.get_direction())
-print(ttt.get_direction())
-print(ttt.get_direction())
+ttt = Zwierze(testing, 5, 3)
+ttt.rozmnoz_sie()
 
-print(ttt.organizmy)
+ttt5 = Organizm(testing, 5, 10)
+ttt5.rozmnoz_sie()
+
+print(ttt.check_organizm(ttt, ttt5))
+
+print(ttt.get_random_dir([0, 0, 0, 0]))
+# print(ttt.get_direction())
+# print(ttt.get_direction())
+# print(ttt.get_direction())
+# print(ttt.get_direction())
+# print(ttt.get_direction())
+
+# print(ttt.organizmy)
 # print(testing.to_print)
 # testing.test()
