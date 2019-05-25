@@ -2,13 +2,17 @@ import queue
 
 from Organisms.Animals.Zwierze import *
 from Organisms.Animals.Czlowiek import *
+from Organisms.Animals.Wilk import *
+from Organisms.Animals.Owca import *
+from Organisms.Animals.Zolw import *
+from Organisms.Animals.Lis import *
+from Organisms.Animals.Antylopa import *
+
 
 class Swiat:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-
-        self.to_print = 77
 
         self.moje_organizmy = [[None for i in range(width)] for j in range(height)]
         self.kolejkaRuchu = queue.PriorityQueue()
@@ -16,23 +20,13 @@ class Swiat:
         self.tour_number = 0
         self.game_over = False
 
-        self.moje_organizmy.append(Zwierze(self, 8, 8))
+        self.moje_organizmy[4][4] = Wilk(self, 4, 4)
+        self.moje_organizmy[2][2] = Owca(self, 2, 2)
 
+        self.moje_organizmy[0][0] = Zolw(self, 0, 0)
 
-    def test(self):
-
-        for i in range(0, 4):
-            self.kolejkaRuchu.put(Zwierze(self, i, i))
-
-        # self.__kolejkaRuchu.put(Organizm(8))
-        # self.__kolejkaRuchu.put(Organizm(0))
-
-        # print(self.__kolejkaRuchu.empty())
-
-        while self.kolejkaRuchu.empty() is not True:
-            ttt = self.kolejkaRuchu.get()
-            print(ttt.num)
-
+        self.moje_organizmy[0][1] = Antylopa(self, 1, 0)
+        self.moje_organizmy[3][1] = Lis(self, 1, 3)
     # def get_organizmy(self):
     #     return self.moje_organizmy
     #
@@ -49,7 +43,17 @@ class Swiat:
         pass
 
     def wykonaj_ture(self):
-        pass
+        if not self.game_over:
+            while not self.kolejkaRuchu.empty():
+                organizm = self.kolejkaRuchu.get()
+                print(organizm.polozenie)
+                if self.moje_organizmy[organizm.polozenie[1]][organizm.polozenie[0]] is not None:
+                    organizm.tour_life += 1
+                    organizm.akcja()
+
+            self.tour_number += 1
+            self.update_queue()
+            self.rysuj_swiat()
 
     def init_organizmy(self, x, y, num):
         pass
@@ -58,8 +62,16 @@ class Swiat:
         if isinstance(self.moje_organizmy[y][x], Czloweik):
             pass
 
-        # self.kolejkaRuchu.get
         self.moje_organizmy[y][x] = None
+
+        storage = []
+        while not self.kolejkaRuchu.empty():
+            org = self.kolejkaRuchu.get()
+            if self.moje_organizmy[org.polozenie[1]][org.polozenie[0]] is not None:
+                storage.append(org)
+
+        for organism in storage:
+            self.kolejkaRuchu.put(organism)
 
     def try_to_activate_special(self):
         pass
@@ -71,25 +83,46 @@ class Swiat:
         pass
 
     def update_queue(self):
-        pass
+        for j in range(0, self.height):
+            for k in range(0, self.width):
+                if self.moje_organizmy[j][k] is not None:
+                    self.kolejkaRuchu.put(self.moje_organizmy[j][k])
 
     def rysuj_swiat(self):
-        pass
+        for j in range(0, self.height):
+            for k in range(0, self.width):
+                if self.moje_organizmy[j][k] is not None:
+                    print(self.moje_organizmy[j][k].symbol, end="")
+                else:
+                    print("+", end="")
+            print()
 
 
 
 
-testing = Swiat(20, 20)
 
-ttt = Zwierze(testing, 5, 3)
-ttt.rozmnoz_sie()
+testing = Swiat(5, 5)
 
-ttt5 = Organizm(testing, 5, 10)
-ttt5.rozmnoz_sie()
+# testing.wykonaj_ture()
+# print("--------------")
+# testing.wykonaj_ture()
+# print("--------------")
+# testing.wykonaj_ture()
+# print("--------------")
+# testing.wykonaj_ture()
 
-print(ttt.check_organizm(ttt, ttt5))
-
-print(ttt.get_random_dir([0, 0, 0, 0]))
+for i in range(0, 30):
+    testing.wykonaj_ture()
+# ttt = Zwierze(testing, 5, 3)
+# ttt.rozmnoz_sie()
+#
+# ttt5 = Zwierze(testing, 5, 10)
+# ttt5.sila = 100
+# ttt5.rozmnoz_sie()
+# print(ttt.sila)
+# print(ttt.czy_odbil_atak(ttt5))
+#
+# print(ttt.get_random_dir([0, 0, 0, 0]))
 # print(ttt.get_direction())
 # print(ttt.get_direction())
 # print(ttt.get_direction())

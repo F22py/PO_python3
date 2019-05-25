@@ -21,7 +21,10 @@ class Organizm:
         self.organizmy = self.World.moje_organizmy
 
     def __lt__(self, other):
-        return self.tour_life > other.tour_life
+        if self.inicjatywa == other.inicjatywa:
+            return self.tour_life > other.tour_life
+
+        return self.inicjatywa > other.inicjatywa
 
     def generate_data_to_save(self):
         pass
@@ -36,6 +39,9 @@ class Organizm:
         pass
 
     def create_new_organizm(self, x, y):
+        pass
+
+    def czy_odbil_atak(self, atakujacy):
         pass
 
     def get_direction(self):
@@ -73,7 +79,7 @@ class Organizm:
         elif direction == 3:
             coordinates = self.set_new_position(0, 1, self.step)
         elif direction == 4:
-            coordinates = self.set_new_position(1, -1, self.step)
+            coordinates = self.set_new_position(0, -1, self.step)
 
         return coordinates
 

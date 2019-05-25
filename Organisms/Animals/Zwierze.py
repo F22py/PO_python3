@@ -18,15 +18,31 @@ class Zwierze(Organizm):
         if self.organizmy[y][x] is None:
             self.set_new_polozenie(x, y)
 
-            self.organizmy[y][x] = self.organizmy[y][x]
+            self.organizmy[y][x] = self.organizmy[tY][tX]
             # self.World.zabij_organizm(tX, tY)
             self.organizmy[tY][tX] = None
         else:
             self.organizmy[y][x].kolizja(tX, tY)
 
     def kolizja(self, x, y):
-        pass
+        at_def = self.czy_odbil_atak(self.organizmy[y][x])
 
+        tX = self.polozenie[0]
+        tY = self.polozenie[1]
+
+        same_organismy = self.check_organizm(self.organizmy[y][x], self.organizmy[tY][tX])
+
+        if not same_organismy:
+            if not at_def:
+                self.World.zabij_organizm(tX, tY)
+                self.organizmy[y][x].akcja(tX, tY)
+            else:
+                self.World.zabij_organizm(x, y)
+        else:
+            self.rozmnoz_sie()
+
+    def czy_odbil_atak(self, atakujacy):
+        return self.sila > atakujacy.sila
 
     def create_new_organizm(self, x, y):
         pass
