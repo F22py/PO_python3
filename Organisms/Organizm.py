@@ -1,5 +1,6 @@
 import random
 
+
 class Organizm:
     def __init__(self, my_world, x, y):
         self.sila = 0

@@ -8,6 +8,8 @@ from Organisms.Animals.Zolw import *
 from Organisms.Animals.Lis import *
 from Organisms.Animals.Antylopa import *
 
+from Organisms.OrganizmyList import *
+
 
 class Swiat:
     def __init__(self, width, height):
@@ -113,6 +115,11 @@ testing = Swiat(5, 5)
 
 for i in range(0, 30):
     testing.wykonaj_ture()
+
+kkk = OrganizmyList
+print(kkk.size())
+print(kkk.create_new_organizm(OrganizmyList.Barszcz, testing, 5, 5))
+
 # ttt = Zwierze(testing, 5, 3)
 # ttt.rozmnoz_sie()
 #

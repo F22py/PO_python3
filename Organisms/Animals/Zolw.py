@@ -3,7 +3,7 @@ from Organisms.Animals.Zwierze import *
 
 class Zolw(Zwierze):
     def __init__(self, my_world, x, y):
-        Organizm.__init__(self, my_world, x, y)
+        Zwierze.__init__(self, my_world, x, y)
 
         self.sila = 2
         self.inicjatywa = 1

@@ -3,7 +3,7 @@ from Organisms.Animals.Zwierze import *
 
 class Wilk(Zwierze):
     def __init__(self, my_world, x, y):
-        Organizm.__init__(self, my_world, x, y)
+        Zwierze.__init__(self, my_world, x, y)
 
         self.sila = 9
         self.inicjatywa = 5
