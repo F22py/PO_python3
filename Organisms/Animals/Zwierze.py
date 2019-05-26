@@ -19,8 +19,6 @@ class Zwierze(Organizm):
             self.set_new_polozenie(x, y)
 
             self.organizmy[y][x] = self.organizmy[tY][tX]
-
-
             # self.World.zabij_organizm(tX, tY)
             self.organizmy[tY][tX] = None
         else:
