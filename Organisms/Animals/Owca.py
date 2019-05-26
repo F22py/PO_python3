@@ -11,7 +11,7 @@ class Owca(Zwierze):
         self.symbol = "O"
         self.title = "Owca"
 
-        self.img = "NO"
+        self.color = (153, 102, 0)
 
     def create_new_organizm(self, x, y):
         return Owca(self.World, x, y)

@@ -8,7 +8,7 @@ class Barszcz(Roslina):
         self.symbol = "B"
         self.title = "Barszcz"
 
-        self.img = "NO"
+        self.color = (102, 0, 153)
 
     def akcja(self, x=-1, y=-1):
         tX = self.polozenie[0]

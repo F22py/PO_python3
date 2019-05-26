@@ -8,7 +8,7 @@ class Trawa(Roslina):
         self.symbol = "T"
         self.title = "Trawa"
 
-        self.img = "NO"
+        self.color = (0, 255, 0)
 
     def create_new_organizm(self, x, y):
         return Trawa(self.World, x, y)

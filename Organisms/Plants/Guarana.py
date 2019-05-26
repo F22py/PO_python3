@@ -8,7 +8,7 @@ class Guarana(Roslina):
         self.symbol = "G"
         self.title = "Guarana"
 
-        self.img = "NO"
+        self.color = (255, 0 , 0)
 
     def kolizja(self, x, y):
         self.organizmy[y][x].sila *= 3

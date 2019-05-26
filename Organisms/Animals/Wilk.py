@@ -11,7 +11,7 @@ class Wilk(Zwierze):
         self.symbol = "W"
         self.title = "Wilk"
 
-        self.img = "NO"
+        self.color = (105, 105, 105)
 
     def create_new_organizm(self, x, y):
         return Wilk(self.World, x, y)

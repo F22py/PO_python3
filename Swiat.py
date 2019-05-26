@@ -22,11 +22,13 @@ class Swiat:
         self.tour_number = 0
         self.game_over = False
 
+        self.dodaj_na_poczatek()
+
         self.Sasha = Czlowiek(self, int(width/2), int(height/2))
         self.Sasha.title = "Sasha"
         self.moje_organizmy[int(height/2)][int(width/2)] = self.Sasha
 
-        self.dodaj_na_poczatek()
+
 
         # self.moje_organizmy[4][4] = Wilk(self, 4, 4)
         # self.moje_organizmy[2][2] = Owca(self, 2, 2)
@@ -50,6 +52,7 @@ class Swiat:
     def set_czlowiek_direction_global(self, direction):
         if self.Sasha is not None:
             self.Sasha.direction = direction
+            self.wykonaj_ture()
 
     def wykonaj_ture(self):
         if not self.game_over:

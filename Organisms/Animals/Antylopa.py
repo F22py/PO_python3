@@ -1,6 +1,5 @@
 from Organisms.Animals.Zwierze import *
 
-
 class Antylopa(Zwierze):
     def __init__(self, my_world, x, y):
         Zwierze.__init__(self, my_world, x, y)
@@ -13,7 +12,7 @@ class Antylopa(Zwierze):
         self.symbol = "A"
         self.title = "Antylopa"
 
-        self.img = "NO"
+        self.color = (255, 255, 0)
 
     def create_new_organizm(self, x, y):
         return Antylopa(self.World, x, y)

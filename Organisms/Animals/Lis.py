@@ -11,7 +11,7 @@ class Lis(Zwierze):
         self.symbol = "L"
         self.title = "Lis"
 
-        self.img = "NO"
+        self.color = (255, 140, 0)
 
     def create_new_organizm(self, x, y):
         return Lis(self.World, x, y)

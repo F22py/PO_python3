@@ -8,7 +8,7 @@ class Mlecz(Roslina):
         self.symbol = "M"
         self.title = "Mlecz"
 
-        self.img = "NO"
+        self.color = (10, 55, 102)
 
     def akcja(self, x=-1, y=-1):
         attempts = 3

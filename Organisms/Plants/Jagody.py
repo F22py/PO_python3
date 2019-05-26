@@ -10,7 +10,7 @@ class Jagody(Roslina):
         self.symbol = "J"
         self.title = "Jagody"
 
-        self.img = "NO"
+        self.color = (0, 0, 255)
 
     def czy_odbil_atak(self, atakujacy):
         return True

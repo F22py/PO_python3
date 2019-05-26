@@ -11,7 +11,7 @@ class Zolw(Zwierze):
         self.symbol = "Z"
         self.title = "Zolw"
 
-        self.img = "NO"
+        self.color = (0, 102, 0)
 
     def create_new_organizm(self, x, y):
         return Zolw(self.World, x, y)

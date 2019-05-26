@@ -5,13 +5,13 @@ class Czlowiek(Zwierze):
     def __init__(self, my_world, x, y):
         Zwierze.__init__(self, my_world, x, y)
 
-        self.sila = 5
+        self.sila = 500
         self.inicjatywa = 4
 
         self.symbol = "C"
         self.title = "Human being"
 
-        self.img = "NO"
+        self.color = (0, 255, 255)
 
         self.direction = 0
         self.special = 0

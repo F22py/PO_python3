@@ -1,6 +1,5 @@
 import random
 
-
 class Organizm:
     def __init__(self, my_world, x, y):
         self.sila = 0
@@ -10,10 +9,11 @@ class Organizm:
         self.symbol = ""
         self.title = ""
         self.img = ""
+        self.color = (0, 0, 0)
 
         self.tour_life = 0
         self.step = 1
-        self.alive = True
+        # self.alive = True
 
         self.World = my_world
         self.polozenie.append(x)
