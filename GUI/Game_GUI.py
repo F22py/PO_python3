@@ -117,16 +117,17 @@ class Game:
                             self.swiat.wykonaj_ture()
                             # print("NEW TOUR")
                 elif event.type == pygame.KEYDOWN:
-                    #           3    4      2     1
-                    # direction (UP, DOWN , LEFT, RIGHT)
-                    if event.key == pygame.K_UP:
-                        self.swiat.set_czlowiek_direction_global(3)
-                    elif event.key == pygame.K_DOWN:
-                        self.swiat.set_czlowiek_direction_global(4)
-                    elif event.key == pygame.K_LEFT:
-                        self.swiat.set_czlowiek_direction_global(2)
-                    elif event.key == pygame.K_RIGHT:
-                        self.swiat.set_czlowiek_direction_global(1)
+                    if self.game_started:
+                        #           3    4      2     1
+                        # direction (UP, DOWN , LEFT, RIGHT)
+                        if event.key == pygame.K_UP:
+                            self.swiat.set_czlowiek_direction_global(3)
+                        elif event.key == pygame.K_DOWN:
+                            self.swiat.set_czlowiek_direction_global(4)
+                        elif event.key == pygame.K_LEFT:
+                            self.swiat.set_czlowiek_direction_global(2)
+                        elif event.key == pygame.K_RIGHT:
+                            self.swiat.set_czlowiek_direction_global(1)
 
 
             # Feed textinput with events every frame

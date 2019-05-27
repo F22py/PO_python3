@@ -21,12 +21,12 @@ class Czlowiek(Zwierze):
             self.check_special()
 
             coordinates = self.get_move_coord(self.direction)
-            self.direction = 0
 
             x = coordinates[0]
             y = coordinates[1]
 
             super(Czlowiek, self).akcja(x, y)
+            self.direction = 0
 
     def activate_umejetnosc(self):
         if self.special == 0:
