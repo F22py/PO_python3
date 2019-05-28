@@ -123,7 +123,7 @@ class Swiat:
                     print(self.moje_organizmy[j][k].symbol, end="")
                 else:
                     print("+", end="")
-            print()
+            print("----------------------------------------------")
 
 
 
