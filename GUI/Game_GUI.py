@@ -1,5 +1,6 @@
 import pygame
 import GUI.pygame_textinput as pygame_textinput
+from GUI.add_new_organizm import *
 
 from Swiat import *
 
@@ -25,6 +26,10 @@ class Game:
                       pygame.Color('red'), pygame.Color('blue'), pygame.Color('grey')]
 
         self.game_started = False
+        self.to_add = False
+        self.to_add_x = 0
+        self.to_add_y = 0
+
         self.world_width = 0
         self.world_height = 0
 
@@ -54,18 +59,20 @@ class Game:
 
         # text for buttons
 
-        ft_font = pygame.font.Font('Blogger_Sans.otf', 18)
+        self.ft_font = pygame.font.Font('Blogger_Sans.otf', 18)
 
-        self.next_tour_surf = ft_font.render("Next tour", 1, self.color[1])
-        self.save_game_surf = ft_font.render("Save game", 1, self.color[1])
-        self.komentator_surf = ft_font.render("Commentator", 1, self.color[1])
-        self.start_new_game_surf = ft_font.render("New Game", 1, self.color[1])
+        self.next_tour_surf = self.ft_font.render("Next tour", 1, self.color[1])
+        self.save_game_surf = self.ft_font.render("Save game", 1, self.color[1])
+        self.komentator_surf = self.ft_font.render("Commentator", 1, self.color[1])
+        self.start_new_game_surf = self.ft_font.render("New Game", 1, self.color[1])
 
         self.buttons_text = []
         self.buttons_text.append(self.next_tour_surf)
         self.buttons_text.append(self.save_game_surf)
         self.buttons_text.append(self.komentator_surf)
         self.buttons_text.append(self.start_new_game_surf)
+
+        self.lista_organizow = self.get_list_of_organisms()
 
         self.swiat = None
 
@@ -103,6 +110,20 @@ class Game:
                                                  self.y_draw_delta + 1 + i * self.cell_size,
                                                  self.cell_size, self.cell_size))
 
+    def get_list_of_organisms(self):
+        buttons = [[] for i in range(0, OrganizmyList.size())]
+
+        for i in range(0, OrganizmyList.size()):
+            buttons[i].append(pygame.Rect(self.but_x, self.but_y + (self.but_h + 5)*i, self.but_w, self.but_h))
+
+        for i in range(0, OrganizmyList.size()):
+            temp = []
+            temp.append(self.ft_font.render(str(OrganizmyList(i+1).name), 1, self.color[1]))
+            temp.append(OrganizmyList(i+1))
+            buttons[i].append(temp)
+
+        return buttons
+
     def go(self):
         while True:
             self.screen.fill((225, 225, 225))
@@ -113,14 +134,39 @@ class Game:
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.game_started:
-                        if self.next_tour_button.collidepoint(pygame.mouse.get_pos()):
-                            self.swiat.wykonaj_ture()
-                            # print("NEW TOUR")
+                        if not self.to_add:
+                            poz_x = (pygame.mouse.get_pos()[0] - self.border_size) // self.cell_size
+                            poz_y = pygame.mouse.get_pos()[1] // self.cell_size
+
+                            if 0 < poz_x < self.swiat.width and 0 < poz_y < self.swiat.height:
+
+                                if self.swiat.moje_organizmy[poz_y][poz_x] is None:
+                                    self.to_add = True
+                                    self.to_add_x = poz_x
+                                    self.to_add_y = poz_y
+
+                            if self.next_tour_button.collidepoint(pygame.mouse.get_pos()):
+                                self.swiat.wykonaj_ture()
+                        else:
+                            for i in range(0, len(self.lista_organizow)):
+                                if self.lista_organizow[i][0].collidepoint(pygame.mouse.get_pos()):
+                                    if 0 < self.to_add_x < self.swiat.width and 0 < self.to_add_y < self.swiat.height:
+                                        self.swiat.moje_organizmy[self.to_add_y][self.to_add_x] = \
+                                            OrganizmyList.create_new_organizm(
+                                                self.lista_organizow[i][1][1],
+                                                self.swiat, self.to_add_x, self.to_add_y)
+                                        self.swiat.update_queue()
+                                    self.to_add_x = 0
+                                    self.to_add_y = 0
+
+                                    self.to_add = False
+
                 elif event.type == pygame.KEYDOWN:
                     if self.game_started:
                         #           3    4      2     1
                         # direction (UP, DOWN , LEFT, RIGHT)
                         if event.key == pygame.K_UP:
+                            self.to_add = False
                             self.swiat.set_czlowiek_direction_global(3)
                         elif event.key == pygame.K_DOWN:
                             self.swiat.set_czlowiek_direction_global(4)
@@ -128,7 +174,9 @@ class Game:
                             self.swiat.set_czlowiek_direction_global(2)
                         elif event.key == pygame.K_RIGHT:
                             self.swiat.set_czlowiek_direction_global(1)
-
+                    if self.to_add:
+                        if event.key == pygame.K_ESCAPE:
+                            self.to_add = False
 
             # Feed textinput with events every frame
             if textinput.update(events):
@@ -136,6 +184,12 @@ class Game:
 
             if not self.game_started:
                 self.screen.blit(textinput.get_surface(), (10, 10))
+            elif self.to_add:
+                    buttons = self.lista_organizow
+                    for i in range(0, len(buttons)):
+                        pygame.draw.rect(self.screen, self.color[4], buttons[i][0], 0)
+                        self.screen.blit(buttons[i][1][0], (buttons[i][0].x, buttons[i][0].y))
+
             else:
                 for button in self.buttons:
                     pygame.draw.rect(self.screen, self.color[4], button, 0)
@@ -150,4 +204,4 @@ class Game:
             clock.tick(30)
 
 
-test = Game([200, 200])
+GUI = Game([150, 100])

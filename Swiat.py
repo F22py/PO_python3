@@ -74,6 +74,7 @@ class Swiat:
         self.moje_organizmy[y][x] = \
             OrganizmyList.create_new_organizm(val, self, x, y)
 
+
     def zabij_organizm(self, x, y):
         if isinstance(self.moje_organizmy[y][x], Czlowiek):
             self.Sasha = None
