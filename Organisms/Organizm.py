@@ -1,5 +1,6 @@
 import random
 
+
 class Organizm:
     def __init__(self, my_world, x, y):
         self.sila = 0
@@ -28,7 +29,9 @@ class Organizm:
         return self.inicjatywa > other.inicjatywa
 
     def generate_data_to_save(self):
-        pass
+        out = self.symbol + " " + str(self.polozenie[0]) + " " + str(self.polozenie[1]) + " " + str(self.sila) \
+              + " " + str(self.inicjatywa) + " " + str(self.tour_life)
+        return out
 
     def akcja(self, x=-1, y=-1):
         pass
@@ -158,7 +161,6 @@ class Organizm:
 
             x = coordinates[0]
             y = coordinates[1]
-
             self.organizmy[y][x] = self.create_new_organizm(x, y)
 
     def check_organizm(self, o1, o2):

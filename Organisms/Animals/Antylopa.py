@@ -1,5 +1,6 @@
 from Organisms.Animals.Zwierze import *
 
+
 class Antylopa(Zwierze):
     def __init__(self, my_world, x, y):
         Zwierze.__init__(self, my_world, x, y)

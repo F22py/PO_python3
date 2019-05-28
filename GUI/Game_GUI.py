@@ -1,6 +1,5 @@
 import pygame
 import GUI.pygame_textinput as pygame_textinput
-from GUI.add_new_organizm import *
 
 from Swiat import *
 
@@ -138,8 +137,7 @@ class Game:
                             poz_x = (pygame.mouse.get_pos()[0] - self.border_size) // self.cell_size
                             poz_y = pygame.mouse.get_pos()[1] // self.cell_size
 
-                            if 0 < poz_x < self.swiat.width and 0 < poz_y < self.swiat.height:
-
+                            if 0 <= poz_x < self.swiat.width and 0 <= poz_y < self.swiat.height:
                                 if self.swiat.moje_organizmy[poz_y][poz_x] is None:
                                     self.to_add = True
                                     self.to_add_x = poz_x
@@ -147,10 +145,12 @@ class Game:
 
                             if self.next_tour_button.collidepoint(pygame.mouse.get_pos()):
                                 self.swiat.wykonaj_ture()
+                            elif self.save_game_button.collidepoint(pygame.mouse.get_pos()):
+                                self.swiat.save_game()
                         else:
                             for i in range(0, len(self.lista_organizow)):
                                 if self.lista_organizow[i][0].collidepoint(pygame.mouse.get_pos()):
-                                    if 0 < self.to_add_x < self.swiat.width and 0 < self.to_add_y < self.swiat.height:
+                                    if 0 <= self.to_add_x < self.swiat.width and 0 <= self.to_add_y < self.swiat.height:
                                         self.swiat.moje_organizmy[self.to_add_y][self.to_add_x] = \
                                             OrganizmyList.create_new_organizm(
                                                 self.lista_organizow[i][1][1],

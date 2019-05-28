@@ -1,4 +1,5 @@
 import queue
+import datetime
 
 # from Organisms.Animals.Zwierze import *
 # from Organisms.Animals.Wilk import *
@@ -6,13 +7,15 @@ import queue
 # from Organisms.Animals.Zolw import *
 # from Organisms.Animals.Lis import *
 # from Organisms.Animals.Antylopa import *
+
+
 from Organisms.Animals.Czlowiek import *
 
 from Organisms.OrganizmyList import *
 
 
 class Swiat:
-    def __init__(self, width, height):
+    def __init__(self, width, height, path=None):
         self.width = width
         self.height = height
 
@@ -27,27 +30,6 @@ class Swiat:
         self.Sasha = Czlowiek(self, int(width/2), int(height/2))
         self.Sasha.title = "Sasha"
         self.moje_organizmy[int(height/2)][int(width/2)] = self.Sasha
-
-
-
-        # self.moje_organizmy[4][4] = Wilk(self, 4, 4)
-        # self.moje_organizmy[2][2] = Owca(self, 2, 2)
-        #
-        # self.moje_organizmy[0][0] = Zolw(self, 0, 0)
-        #
-        # self.moje_organizmy[0][1] = Antylopa(self, 1, 0)
-        # self.moje_organizmy[3][1] = Lis(self, 1, 3)
-    # def get_organizmy(self):
-    #     return self.moje_organizmy
-    #
-    # def get_size(self):
-    #     return self.width, self.height
-    #
-    # def get_tour_number(self):
-    #     return self.tour_number
-    #
-    # def get_game_over(self):
-    #     return self.game_over
 
     def set_czlowiek_direction_global(self, direction):
         if self.Sasha is not None:
@@ -74,7 +56,6 @@ class Swiat:
         self.moje_organizmy[y][x] = \
             OrganizmyList.create_new_organizm(val, self, x, y)
 
-
     def zabij_organizm(self, x, y):
         if isinstance(self.moje_organizmy[y][x], Czlowiek):
             self.Sasha = None
@@ -100,7 +81,19 @@ class Swiat:
         return result
 
     def save_game(self):
-        pass
+        title = datetime.datetime.now().strftime("%Y-%m-%d-%H.%M.%S")
+        directory = "../saves/"
+        path = directory + title + ".txt"
+        all_games_path = directory + "games.txt"
+        with open(path, "w+") as file:
+            file.write(str(self.width) + "\n")
+            file.write(str(self.height) + "\n")
+            for i in range(0, self.height):
+                for k in range(0, self.width):
+                    if self.moje_organizmy[i][k] is not None:
+                        file.write(self.moje_organizmy[i][k].generate_data_to_save() + "\n")
+        with open(all_games_path, "a") as file:
+            file.write(title + "\n")
 
     def dodaj_na_poczatek(self):
         r_x = 0

@@ -62,7 +62,8 @@ class Czlowiek(Zwierze):
         self.special = -1
 
     def generate_data_to_save(self):
-        pass
+        out = super(Czlowiek, self).generate_data_to_save() + " " + str(self.special) + " " + str(self.step)
+        return out
 
 
 

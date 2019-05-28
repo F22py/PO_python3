@@ -28,5 +28,5 @@ class Lis(Zwierze):
         if self.organizmy[y][x] is None:
             super(Lis, self).akcja(x, y)
         else:
-            if self.sila > self.organizmy[y][x].sila:
+            if self.sila >= self.organizmy[y][x].sila:
                 self.organizmy[y][x].kolizja(tX, tY)
