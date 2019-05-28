@@ -28,6 +28,8 @@ class Game:
         self.to_add = False
         self.to_add_x = 0
         self.to_add_y = 0
+        self.game_load = False
+        self.games = []
 
         self.world_width = 0
         self.world_height = 0
@@ -49,6 +51,8 @@ class Game:
         self.save_game_button = pygame.Rect(self.but_x, self.but_y + self.but_h + 5, self.but_w, self.but_h)
         self.komentator_button = pygame.Rect(self.but_x, self.but_y + (self.but_h + 5)*2, self.but_w, self.but_h)
         self.start_new_game_button = pygame.Rect(self.but_x, self.but_y + (self.but_h + 5)*3, self.but_w, self.but_h)
+
+        self.load_game_button = pygame.Rect(10, 40, self.but_w, self.but_h)
 
         self.buttons = []
         self.buttons.append(self.next_tour_button)
@@ -133,7 +137,7 @@ class Game:
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.game_started:
-                        if not self.to_add:
+                        if not self.to_add and not self.game_load:
                             poz_x = (pygame.mouse.get_pos()[0] - self.border_size) // self.cell_size
                             poz_y = pygame.mouse.get_pos()[1] // self.cell_size
 
@@ -160,6 +164,10 @@ class Game:
                                     self.to_add_y = 0
 
                                     self.to_add = False
+                    else:
+                        if self.load_game_button.collidepoint(pygame.mouse.get_pos()):
+                            self.game_load = True
+                            self.game_started = True
 
                 elif event.type == pygame.KEYDOWN:
                     if self.game_started:
@@ -177,6 +185,10 @@ class Game:
                     if self.to_add:
                         if event.key == pygame.K_ESCAPE:
                             self.to_add = False
+                    elif self.game_load:
+                        if event.key == pygame.K_ESCAPE:
+                            self.game_load = False
+                        print(self.games[0][event.key - 49]) #add path to swiat
 
             # Feed textinput with events every frame
             if textinput.update(events):
@@ -184,11 +196,28 @@ class Game:
 
             if not self.game_started:
                 self.screen.blit(textinput.get_surface(), (10, 10))
+                pygame.draw.rect(self.screen, self.color[4], self.load_game_button, 0)
+                self.screen.blit(self.ft_font.render("Load Game", 1, self.color[1]), (10, 50))
             elif self.to_add:
                     buttons = self.lista_organizow
                     for i in range(0, len(buttons)):
                         pygame.draw.rect(self.screen, self.color[4], buttons[i][0], 0)
                         self.screen.blit(buttons[i][1][0], (buttons[i][0].x, buttons[i][0].y))
+
+            elif self.game_load:
+
+                directory = "../saves/"
+                all_games_path = directory + "games.txt"
+
+
+                with open(all_games_path, "r") as file:
+                    self.games.append(file.readlines())
+                self.screen = pygame.display.set_mode((400, 700))
+                self.screen.fill((225, 225, 225))
+                for i in range(0, len(self.games[0])):
+                    if i < 9:
+                        self.screen.blit(self.ft_font.render(str(i+1) + ") " + str(self.games[0][i]), 1, self.color[1]),
+                                         (10, i * 30))
 
             else:
                 for button in self.buttons:
