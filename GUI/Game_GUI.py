@@ -1,8 +1,6 @@
 import pygame
 import GUI.pygame_textinput as pygame_textinput
 
-from tkinter import *
-from tkinter import messagebox
 
 from Swiat import *
 
@@ -14,8 +12,8 @@ from tkinter import messagebox
 pygame.init()
 pygame.display.set_caption('Keisel Aleksei 178947')
 
-# pygame.mixer.music.load('main_theme.mp3')
-# pygame.mixer.music.play()
+pygame.mixer.music.load('main_theme.mp3')
+pygame.mixer.music.play()
 
 # Create TextInput-object
 textinput = pygame_textinput.TextInput()
@@ -23,6 +21,7 @@ textinput = pygame_textinput.TextInput()
 clock = pygame.time.Clock()
 
 Tk().wm_withdraw()
+
 
 class Game:
     def __init__(self, window_size):
