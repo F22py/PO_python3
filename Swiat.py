@@ -24,12 +24,42 @@ class Swiat:
 
         self.tour_number = 0
         self.game_over = False
-
-        self.dodaj_na_poczatek()
+        if not path:
+            self.dodaj_na_poczatek()
 
         self.Sasha = Czlowiek(self, int(width/2), int(height/2))
         self.Sasha.title = "Sasha"
-        self.moje_organizmy[int(height/2)][int(width/2)] = self.Sasha
+        self.moje_organizmy[int(self.height/2)][int(self.width / 2)] = self.Sasha
+
+        if path:
+            with open(path, "r") as file:
+                self.width = int(file.readline())
+                self.height = int(file.readline())
+                self.moje_organizmy = [[None for i in range(self.width)] for j in range(self.height)]
+                tour_life_max = 0
+                for line in file.readlines():
+                    data = line.split("\n")[0].split(" ")
+                    x = int(data[1])
+                    y = int(data[2])
+                    if data[0] is not "C":
+                        self.moje_organizmy[y][x] = \
+                            OrganizmyList.create_new_organizm(OrganizmyList[data[0]], self, x, y)
+                        self.moje_organizmy[y][x].sila = int(data[3])
+                        self.moje_organizmy[y][x].inicjatywa = int(data[4])
+                        self.moje_organizmy[y][x].tour_life = int(data[5])
+                    else:
+                        self.Sasha = Czlowiek(self, x, y)
+                        self.Sasha.sila = int(data[3])
+                        self.Sasha.inicjatywa = int(data[4])
+                        self.Sasha.tour_life = int(data[5])
+                        self.Sasha.special = int(data[6])
+                        self.Sasha.step = int(data[7])
+                        self.moje_organizmy[y][x] = self.Sasha
+
+                    if int(data[5]) > tour_life_max:
+                        tour_life_max = int(data[5])
+                self.tour_number = tour_life_max
+
 
     def set_czlowiek_direction_global(self, direction):
         if self.Sasha is not None:
@@ -94,6 +124,7 @@ class Swiat:
                         file.write(self.moje_organizmy[i][k].generate_data_to_save() + "\n")
         with open(all_games_path, "a") as file:
             file.write(title + "\n")
+        return True
 
     def dodaj_na_poczatek(self):
         r_x = 0

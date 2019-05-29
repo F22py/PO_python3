@@ -1,14 +1,22 @@
 import pygame
 import GUI.pygame_textinput as pygame_textinput
 
+from tkinter import *
+from tkinter import messagebox
+
 from Swiat import *
 
 import random
 
+
 pygame.init()
+pygame.display.set_caption('Keisel Aleksei 178947')
+
+pygame.mixer.music.load('main_theme.mp3')
+pygame.mixer.music.play()
+
 # Create TextInput-object
 textinput = pygame_textinput.TextInput()
-
 
 clock = pygame.time.Clock()
 
@@ -81,13 +89,18 @@ class Game:
 
         self.go()
 
-    def transform_size(self, data):
+    def transform_size(self, data, path=None):
         try:
             self.world_width = int(data.split(" ")[0])
             self.world_height = int(data.split(" ")[1])
 
+            if path:
+                with open(path, "r") as file:
+                    self.world_width = int(file.readline())
+                    self.world_height = int(file.readline())
+
             if self.world_width > 0 and self.world_height > 0:
-                self.swiat = Swiat(self.world_width, self.world_height)
+                self.swiat = Swiat(self.world_width, self.world_height, path)
                 self.game_started = True
                 self.screen = pygame.display.set_mode([self.world_width * 50, self.world_height * 45])
 
@@ -151,6 +164,10 @@ class Game:
                                 self.swiat.wykonaj_ture()
                             elif self.save_game_button.collidepoint(pygame.mouse.get_pos()):
                                 self.swiat.save_game()
+                            elif self.start_new_game_button.collidepoint(pygame.mouse.get_pos()):
+                                self.game_started = False
+                                del self.swiat
+                                self.screen = pygame.display.set_mode((150, 100))
                         else:
                             for i in range(0, len(self.lista_organizow)):
                                 if self.lista_organizow[i][0].collidepoint(pygame.mouse.get_pos()):
@@ -182,16 +199,21 @@ class Game:
                             self.swiat.set_czlowiek_direction_global(2)
                         elif event.key == pygame.K_RIGHT:
                             self.swiat.set_czlowiek_direction_global(1)
+                        elif event.key == pygame.K_u:
+                            self.swiat.try_to_activate_special()
                     if self.to_add:
                         if event.key == pygame.K_ESCAPE:
                             self.to_add = False
                     elif self.game_load:
                         if event.key == pygame.K_ESCAPE:
                             self.game_load = False
-                        print(self.games[0][event.key - 49]) #add path to swiat
+                        game_name = self.games[0][event.key - 49]
+                        path = "../saves/" + game_name.split("\n")[0] + ".txt"
+                        self.transform_size("10 10", path)
+                        self.game_load = False
 
             # Feed textinput with events every frame
-            if textinput.update(events):
+            if textinput.update(events) and not self.game_started:
                 self.transform_size(textinput.get_text())
 
             if not self.game_started:
@@ -205,14 +227,12 @@ class Game:
                         self.screen.blit(buttons[i][1][0], (buttons[i][0].x, buttons[i][0].y))
 
             elif self.game_load:
-
                 directory = "../saves/"
                 all_games_path = directory + "games.txt"
 
-
                 with open(all_games_path, "r") as file:
                     self.games.append(file.readlines())
-                self.screen = pygame.display.set_mode((400, 700))
+                self.screen = pygame.display.set_mode((350, 300))
                 self.screen.fill((225, 225, 225))
                 for i in range(0, len(self.games[0])):
                     if i < 9:
