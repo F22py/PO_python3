@@ -25,6 +25,7 @@ class Roslina(Organizm):
             self.World.zabij_organizm(tX, tY)
             self.organizmy[y][x].akcja(tX, tY)
         else:
+            Bob.Komentator.new_record(self.title + " zabił " + self.organizmy[y][x].title)
             self.World.zabij_organizm(x, y)
 
     def czy_odbil_atak(self, atakujacy):

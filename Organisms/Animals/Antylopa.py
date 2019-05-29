@@ -31,6 +31,7 @@ class Antylopa(Zwierze):
                 new_x = coordinates[0]
                 new_y = coordinates[1]
 
+                Bob.Komentator.new_record(self.title + "uczekał/a! Złap ją!!!")
                 super(Antylopa, self).akcja(new_x, new_y)
 
             else:

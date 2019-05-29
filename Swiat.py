@@ -12,10 +12,13 @@ import datetime
 from Organisms.Animals.Czlowiek import *
 
 from Organisms.OrganizmyList import *
+import Komentator as Bob
 
 
 class Swiat:
     def __init__(self, width, height, path=None):
+        Bob.Komentator.clear_file()
+
         self.width = width
         self.height = height
 

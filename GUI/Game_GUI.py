@@ -8,18 +8,21 @@ from Swiat import *
 
 import random
 
+from tkinter import *
+from tkinter import messagebox
 
 pygame.init()
 pygame.display.set_caption('Keisel Aleksei 178947')
 
-pygame.mixer.music.load('main_theme.mp3')
-pygame.mixer.music.play()
+# pygame.mixer.music.load('main_theme.mp3')
+# pygame.mixer.music.play()
 
 # Create TextInput-object
 textinput = pygame_textinput.TextInput()
 
 clock = pygame.time.Clock()
 
+Tk().wm_withdraw()
 
 class Game:
     def __init__(self, window_size):
@@ -154,20 +157,34 @@ class Game:
                             poz_x = (pygame.mouse.get_pos()[0] - self.border_size) // self.cell_size
                             poz_y = pygame.mouse.get_pos()[1] // self.cell_size
 
-                            if 0 <= poz_x < self.swiat.width and 0 <= poz_y < self.swiat.height:
+                            if 0 <= poz_x < self.swiat.width and 0 <= poz_y < self.swiat.height \
+                                    and not self.swiat.game_over:
                                 if self.swiat.moje_organizmy[poz_y][poz_x] is None:
                                     self.to_add = True
                                     self.to_add_x = poz_x
                                     self.to_add_y = poz_y
 
                             if self.next_tour_button.collidepoint(pygame.mouse.get_pos()):
-                                self.swiat.wykonaj_ture()
+                                result = self.swiat.wykonaj_ture()
+                                if not result:
+                                    messagebox.showerror('Game over!', 'Game over!')
                             elif self.save_game_button.collidepoint(pygame.mouse.get_pos()):
-                                self.swiat.save_game()
+                                if self.swiat.save_game():
+                                    messagebox.showinfo('Game saving', 'Game was saved')
                             elif self.start_new_game_button.collidepoint(pygame.mouse.get_pos()):
                                 self.game_started = False
                                 del self.swiat
                                 self.screen = pygame.display.set_mode((150, 100))
+                            elif self.komentator_button.collidepoint(pygame.mouse.get_pos()):
+                                data = []
+                                with open("../saves/logs.txt", encoding='utf-8') as file:
+                                    for line in file.readlines():
+                                        data.append(line)
+                                data = data[::-1]
+                                out = ""
+                                for text in data:
+                                    out += text
+                                messagebox.showinfo("Bob is listening to you", out)
                         else:
                             for i in range(0, len(self.lista_organizow)):
                                 if self.lista_organizow[i][0].collidepoint(pygame.mouse.get_pos()):
@@ -200,7 +217,11 @@ class Game:
                         elif event.key == pygame.K_RIGHT:
                             self.swiat.set_czlowiek_direction_global(1)
                         elif event.key == pygame.K_u:
-                            self.swiat.try_to_activate_special()
+                            result = self.swiat.try_to_activate_special()
+                            if result:
+                                messagebox.showinfo('Umiejętność człowieka', 'Umiejętność człowieka aktywna!')
+                            else:
+                                messagebox.showerror('Umiejętność człowieka', "Proszę poczekać")
                     if self.to_add:
                         if event.key == pygame.K_ESCAPE:
                             self.to_add = False

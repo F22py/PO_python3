@@ -31,6 +31,7 @@ class Czlowiek(Zwierze):
     def activate_umejetnosc(self):
         if self.special == 0:
             self.special = 6
+            Bob.Komentator.new_record("Specjalna umejętność " + self.title + "aktywna!")
             return True
         return False
 

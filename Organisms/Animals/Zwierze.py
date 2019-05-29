@@ -19,7 +19,6 @@ class Zwierze(Organizm):
             self.set_new_polozenie(x, y)
 
             self.organizmy[y][x] = self.organizmy[tY][tX]
-            # self.World.zabij_organizm(tX, tY)
             self.organizmy[tY][tX] = None
         else:
             self.organizmy[y][x].kolizja(tX, tY)
@@ -34,9 +33,11 @@ class Zwierze(Organizm):
 
         if not same_organismy:
             if not at_def:
+                Bob.Komentator.new_record(self.organizmy[y][x].title + " zabił " + self.organizmy[tY][tX].title)
                 self.World.zabij_organizm(tX, tY)
                 self.organizmy[y][x].akcja(tX, tY)
             else:
+                Bob.Komentator.new_record(self.organizmy[tY][tX].title + " zabił " + self.organizmy[y][x].title)
                 self.World.zabij_organizm(x, y)
         else:
             self.rozmnoz_sie()

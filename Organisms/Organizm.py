@@ -1,4 +1,5 @@
 import random
+import Komentator as Bob
 
 
 class Organizm:
@@ -161,6 +162,8 @@ class Organizm:
 
             x = coordinates[0]
             y = coordinates[1]
+
+            Bob.Komentator.new_record(self.title + " rozmnożył się")
             self.organizmy[y][x] = self.create_new_organizm(x, y)
 
     def check_organizm(self, o1, o2):

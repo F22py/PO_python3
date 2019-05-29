@@ -21,18 +21,22 @@ class Barszcz(Roslina):
 
         if tX > 0:
             if self.organizmy[tY][tX - krok] is not None:
+                Bob.Komentator.new_record(self.title + " zbił " + self.organizmy[tY][tX - krok].title)
                 self.World.zabij_organizm(tX - krok, tY)
 
         if tX < w_w - 1:
             if self.organizmy[tY][tX + krok] is not None:
+                Bob.Komentator.new_record(self.title + " zbił " + self.organizmy[tY][tX + krok].title)
                 self.World.zabij_organizm(tX + krok, tY)
 
         if tY > 0:
             if self.organizmy[tY - krok][tX] is not None:
+                Bob.Komentator.new_record(self.title + " zbił " + self.organizmy[tY - krok][tX].title)
                 self.World.zabij_organizm(tX, tY - krok)
 
         if tY < w_h - 1:
             if self.organizmy[tY + krok][tX] is not None:
+                Bob.Komentator.new_record(self.title + " zbił " + self.organizmy[tY + krok][tX].title)
                 self.World.zabij_organizm(tX, tY + krok)
 
     def czy_odbil_atak(self, atakujacy):
