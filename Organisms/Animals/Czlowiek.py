@@ -5,7 +5,7 @@ class Czlowiek(Zwierze):
     def __init__(self, my_world, x, y):
         Zwierze.__init__(self, my_world, x, y)
 
-        self.sila = 5000
+        self.sila = 5
         self.inicjatywa = 4
 
         self.symbol = "C"
