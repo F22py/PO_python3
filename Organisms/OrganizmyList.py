@@ -1,6 +1,6 @@
 from Organisms.Animals.Antylopa import *
 from Organisms.Animals.Lis import *
-from Organisms.Animals.Owca import *
+from Organisms.Animals.CyberOwca import *
 from Organisms.Animals.Wilk import *
 from Organisms.Animals.Zolw import *
 
@@ -24,6 +24,7 @@ class OrganizmyList(Enum):
     Barszcz = 8
     Antylopa = 9
     Lis = 10
+    CyberOwca = 11
 
     Z = 1
     W = 2
@@ -35,6 +36,7 @@ class OrganizmyList(Enum):
     B = 8
     A = 9
     L = 10
+    Q = 11
 
     @staticmethod
     def size():
@@ -65,3 +67,5 @@ class OrganizmyList(Enum):
             return Antylopa(world, x, y)
         elif val == OrganizmyList.Lis:
             return Lis(world, x, y)
+        elif val == OrganizmyList.CyberOwca:
+            return CyberOwca(world, x, y)

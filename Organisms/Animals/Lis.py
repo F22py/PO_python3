@@ -30,3 +30,9 @@ class Lis(Zwierze):
         else:
             if self.sila >= self.organizmy[y][x].sila:
                 self.organizmy[y][x].kolizja(tX, tY)
+            else:
+                mozliwosci = self.find_free_place()
+                direction = self.get_random_dir(mozliwosci)
+                if direction != -1:
+                    coord = self.get_move_coord()
+                    super(Lis, self).akcja(coord[0], coord[1])

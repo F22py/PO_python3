@@ -227,6 +227,7 @@ class Game:
                     elif self.game_load:
                         if event.key == pygame.K_ESCAPE:
                             self.game_load = False
+
                         game_name = self.games[0][event.key - 49]
                         path = "../saves/" + game_name.split("\n")[0] + ".txt"
                         self.transform_size("10 10", path)

@@ -52,17 +52,17 @@ class Swiat:
                         self.moje_organizmy[y][x].tour_life = int(data[5])
                     else:
                         self.Sasha = Czlowiek(self, x, y)
+                        self.Sasha.title = "Sasha"
                         self.Sasha.sila = int(data[3])
                         self.Sasha.inicjatywa = int(data[4])
                         self.Sasha.tour_life = int(data[5])
                         self.Sasha.special = int(data[6])
-                        self.Sasha.step = int(data[7])
+                        self.Sasha.stepR = int(data[7])
                         self.moje_organizmy[y][x] = self.Sasha
 
                     if int(data[5]) > tour_life_max:
                         tour_life_max = int(data[5])
                 self.tour_number = tour_life_max
-
 
     def set_czlowiek_direction_global(self, direction):
         if self.Sasha is not None:
@@ -73,14 +73,14 @@ class Swiat:
         if not self.game_over:
             while not self.kolejka_ruchu.empty():
                 organizm = self.kolejka_ruchu.get()
-                # print(organizm.polozenie)
+                print(organizm)
                 if self.moje_organizmy[organizm.polozenie[1]][organizm.polozenie[0]] is not None:
                     organizm.tour_life += 1
                     organizm.akcja()
 
             self.tour_number += 1
             self.update_queue()
-            self.rysuj_swiat()
+            # self.rysuj_swiat()
 
         return not self.game_over
 
@@ -101,7 +101,6 @@ class Swiat:
             org = self.kolejka_ruchu.get()
             if self.moje_organizmy[org.polozenie[1]][org.polozenie[0]] is not None:
                 storage.append(org)
-
         for organism in storage:
             self.kolejka_ruchu.put(organism)
 
@@ -142,13 +141,18 @@ class Swiat:
                 if self.moje_organizmy[r_y][r_x] is None:
                     running = False
 
-            self.init_organizmy(r_x, r_y, k % 10 + 1)
+            self.init_organizmy(r_x, r_y, k % 11 + 1)
 
     def update_queue(self):
         for j in range(0, self.height):
             for k in range(0, self.width):
                 if self.moje_organizmy[j][k] is not None:
                     self.kolejka_ruchu.put(self.moje_organizmy[j][k])
+
+    def is_cyber_owca(self, x, y):
+        if isinstance(self.moje_organizmy[y][x], CyberOwca):
+            return True
+        return False
 
     def rysuj_swiat(self):
         for j in range(0, self.height):
@@ -157,7 +161,8 @@ class Swiat:
                     print(self.moje_organizmy[j][k].symbol, end="")
                 else:
                     print("+", end="")
-            print("----------------------------------------------")
+            print()
+        print("----------------------------------------------")
 
 
 
