@@ -63,6 +63,7 @@ class Swiat:
                     if int(data[5]) > tour_life_max:
                         tour_life_max = int(data[5])
                 self.tour_number = tour_life_max
+        self.wykonaj_ture()
 
     def set_czlowiek_direction_global(self, direction):
         if self.Sasha is not None:
@@ -80,7 +81,8 @@ class Swiat:
 
             self.tour_number += 1
             self.update_queue()
-            # self.rysuj_swiat()
+        print("-----------------------")
+        self.rysuj_swiat()
 
         return not self.game_over
 

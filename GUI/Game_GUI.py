@@ -145,7 +145,6 @@ class Game:
     def go(self):
         while True:
             self.screen.fill((225, 225, 225))
-
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
@@ -192,7 +191,8 @@ class Game:
                                             OrganizmyList.create_new_organizm(
                                                 self.lista_organizow[i][1][1],
                                                 self.swiat, self.to_add_x, self.to_add_y)
-                                        self.swiat.update_queue()
+                                        self.swiat.kolejka_ruchu.put(self.swiat.moje_organizmy[self.to_add_y]
+                                                                     [self.to_add_x])
                                     self.to_add_x = 0
                                     self.to_add_y = 0
 
@@ -207,7 +207,6 @@ class Game:
                         #           3    4      2     1
                         # direction (UP, DOWN , LEFT, RIGHT)
                         if event.key == pygame.K_UP:
-                            self.to_add = False
                             self.swiat.set_czlowiek_direction_global(3)
                         elif event.key == pygame.K_DOWN:
                             self.swiat.set_czlowiek_direction_global(4)
