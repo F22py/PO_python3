@@ -53,7 +53,7 @@ class CyberOwca(Owca):
         # dist = math.sqrt((self.World.width - self.polozenie[0]) ** 2 + (self.World.height - self.polozenie[1]) ** 2)
         dist = self.World.width * self.World.height
         for org in barszcz_list:
-            org_dist = math.sqrt((org.polozenie[0]-self.polozenie[0]) ** 2 + (org.polozenie[1]-self.polozenie[1]) ** 2)
+            org_dist = abs(org.polozenie[0]-self.polozenie[0]) + abs(org.polozenie[1]-self.polozenie[1])
             if org_dist < dist:
                 dist = org_dist
                 self.target = org
